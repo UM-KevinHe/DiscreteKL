@@ -1,7 +1,7 @@
 # DiscreteKL: Kullback-Leibler-Based Discrete Failure Time Models
 
 This package is for the paper "Kullback-Leibler-Based Discrete Failure Time Models for Integration of
-Published Prediction Models with New Time-To-Event Dataset"
+Published Prediction Models with New Time-To-Event Dataset" by Di Wang, Wen Ye, Randall Sung, Hui Jiang, Jeremy M.G. Taylor, Lisa Ly, and Kevin He.
 
 ### Purpose
 
