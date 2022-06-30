@@ -1,4 +1,4 @@
-kl_lik_boosting <- function(day_prior, beta_prior, eta_min, eta_max, eta_interval, df_input, M)
+KL_logit_Boosting <- function(day_prior, beta_prior, eta_min, eta_max, eta_interval, df_input, M, step_size)
 {
   eta_vec <- seq(from = eta_min, to = eta_max, by = eta_interval)
   df_input <- as.data.frame(df_input)
@@ -26,8 +26,8 @@ kl_lik_boosting <- function(day_prior, beta_prior, eta_min, eta_max, eta_interva
       X_train <- as.matrix(X_train)
       delta_train <- df_train$y
       t_train <- df_train$time
-      result_train <- discrete_boosting_cpp(t_train, X_train, delta_train, day_prior, df_train$LP_prior, eta, tol=1e-30, Mstop=M, step_size=0.005)
-      likelihood_cv[cv] <- DiscLoglik(df_test$time, X_test, df_test$y,result_train$beta_t,result_train$beta_v)
+      result_train <- discreteKL_boosting_logit(t_train, X_train, delta_train, day_prior, df_train$LP_prior, eta, tol=1e-30, Mstop=M, step_size)
+      likelihood_cv[cv] <- DiscLoglik_logit(df_test$time, X_test, df_test$y,result_train$beta_t,result_train$beta_v)
     }
     likelihood[k] <- mean(likelihood_cv)
   }
@@ -37,14 +37,14 @@ kl_lik_boosting <- function(day_prior, beta_prior, eta_min, eta_max, eta_interva
   delta_input <- df_input$y
   t_input <- df_input$time
   Z <- as.matrix(Z)
-  result_final <- discrete_boosting_cpp(t_input, Z, delta_input, day_prior, df_input$LP_prior, eta=eta_where_max, tol=1e-30, Mstop=M, step_size=0.005)
+  result_final <- discreteKL_boosting_logit(t_input, Z, delta_input, day_prior, df_input$LP_prior, eta=eta_where_max, tol=1e-30, Mstop=M, step_size)
   
   return_list <- list("model"=result_final, "eta"= eta_where_max, "likelihood"=likelihood)
   return(return_list)
 }
 
 #####cpp version discrete model#################################################
-discrete_boosting_cpp=function(t, X, ind, beta_t_prior, LP_prior, eta, tol, Mstop, step_size){
+discreteKL_boosting_logit=function(t, X, ind, beta_t_prior, LP_prior, eta, tol, Mstop, step_size){
   maxt=max(t)
   c=ncol(X)
   r=nrow(X)
@@ -91,6 +91,33 @@ DiscLoglik_logit<-function(t, X, ind, beta_t, beta_v){
   X=as.matrix(X)
   
   return (dbeta_logit(t, X, ind, beta_t, beta_v, maxt, c, r)$loglik)
+}
+
+discrete_boosting_logit=function(t, X, ind, tol, Mstop, step_size){
+  maxt=max(t)
+  c=ncol(X)
+  r=nrow(X)
+  beta_t <- rep(0, maxt)
+  beta_v <- rep(0, c)
+  for (k in 1:maxt){
+    delta_sub <- ind[t==k]
+    beta_t[k] <- mean(delta_sub)
+  }
+  
+  # order t
+  od=order(t,decreasing = T)
+  t_od=t[od]
+  ind=ind[od]
+  X=X[od,]
+  
+  # formatting
+  ind=as.matrix(ind)
+  beta_t=as.matrix(beta_t)
+  beta_v=as.matrix(beta_v)
+  t=as.matrix(t_od)
+  X=as.matrix(X)
+  
+  return (boosting_logit(t, X, ind, beta_t, beta_v, tol, Mstop, step_size))
 }
 
 

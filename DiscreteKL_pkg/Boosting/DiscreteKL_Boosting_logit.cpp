@@ -72,6 +72,8 @@ List NR_boostingKL_logit(Eigen::MatrixXd t, Eigen::MatrixXd z, Eigen::MatrixXd d
   dbeta_z.setZero(P,1);
   //Eigen::MatrixXd beta_z_matrix(2, Mstop+1); 
   //beta_z_matrix.setZero(2, Mstop+1);
+  Eigen::MatrixXd loglik_vec(1, Mstop+1); 
+  loglik_vec.setZero(1, Mstop+1);
   double ll0,ll,ll2;
   Eigen::MatrixXf::Index maxRow, maxCol;
   float max;
@@ -107,10 +109,12 @@ List NR_boostingKL_logit(Eigen::MatrixXd t, Eigen::MatrixXd z, Eigen::MatrixXd d
     diff = abs(ll2-ll)/abs(ll2-ll0);
     beta_z = beta2_z;
     beta_t = beta2_t;
+    loglik_vec(0,m) = ll2;
 
     result["beta_t"]=beta2_t;
     result["beta_v"]=beta2_z; 
     result["m"]=m;
+    result["ll_path"]=loglik_vec;
     //result["path"]=beta_z_matrix;
 
     if (diff<tol) {
@@ -183,6 +187,8 @@ List boosting_logit(Eigen::MatrixXd t, Eigen::MatrixXd z, Eigen::MatrixXd delta,
   dbeta_z.setZero(P,1);
   //Eigen::MatrixXd beta_z_matrix(2, Mstop+1); 
   //beta_z_matrix.setZero(2, Mstop+1);
+  Eigen::MatrixXd loglik_vec(1, Mstop+1); 
+  loglik_vec.setZero(1, Mstop+1);
   double ll0,ll,ll2;
   Eigen::MatrixXf::Index maxRow, maxCol;
   float max;
@@ -218,10 +224,12 @@ List boosting_logit(Eigen::MatrixXd t, Eigen::MatrixXd z, Eigen::MatrixXd delta,
     diff = abs(ll2-ll)/abs(ll2-ll0);
     beta_z = beta2_z;
     beta_t = beta2_t;
+    loglik_vec(0,m) = ll2;
 
     result["beta_t"]=beta2_t;
     result["beta_v"]=beta2_z; 
     result["m"]=m;
+    result["ll_path"]=loglik_vec;
     //result["path"]=beta_z_matrix;
 
     if (diff<tol) {

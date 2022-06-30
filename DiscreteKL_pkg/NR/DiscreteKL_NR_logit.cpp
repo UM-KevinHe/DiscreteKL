@@ -143,6 +143,8 @@ List NR_logit(Eigen::MatrixXd t, Eigen::MatrixXd X, Eigen::MatrixXd ind, Eigen::
   score_t.setZero(max_t,1);
   Eigen::MatrixXd score_v(c,1);
   score_v.setZero(c,1);
+  Eigen::MatrixXd loglik_vec(1, max_iter+1); 
+  loglik_vec.setZero(1, max_iter+1);
   List result;
   double ll,ll2;
   List update=Update_logit(t,X,ind,beta_t,beta_v,max_t,c,r);
@@ -162,11 +164,13 @@ List NR_logit(Eigen::MatrixXd t, Eigen::MatrixXd X, Eigen::MatrixXd ind, Eigen::
     
     update=Update_logit(t,X,ind,beta2_t,beta2_v,max_t,c,r);
     ll2=update["loglik"];
+    loglik_vec(0,i) = ll2;
     
     result["beta_t"]=beta2_t;
     result["beta_v"]=beta2_v;
     result["loglik"]=ll2;
     result["iter"]=i;
+    result["ll_path"]=loglik_vec;
 
     if((ll2-ll)*(ll2-ll)<tol){
       return result;
