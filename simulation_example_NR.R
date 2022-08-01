@@ -3,15 +3,15 @@ library(discSurv) #used to simulate data
 library(tidyr)
 library(Rcpp)
 library(devtools)
-devtools::install_github("dwangi/DiscreteKL")
+devtools::install_github("UM-KevinHe/DiscreteKL")
 
-#source files used in this simulation example
+#files used in this simulation example
 #source('DiscreteKL_NR_logit.R')
 #source('Discrete_data.R')
 #sourceCpp("DiscreteKL_NR_logit.cpp")
 library(DiscreteKL)
 
-rep=1
+rep=10
 loglik <- as.data.frame(matrix(rep(0, 4*rep), rep, 4))
 names(loglik) <- c("KL_logit", "prior", "local", "stacked")
 eta <- as.data.frame(matrix(rep(0, rep), rep, 1))

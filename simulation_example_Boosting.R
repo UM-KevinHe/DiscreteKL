@@ -3,8 +3,9 @@ library(tidyr)
 library(discSurv)
 library(mvtnorm)
 library(devtools)
-devtools::install_github("dwangi/DiscreteKL")
+devtools::install_github("UM-KevinHe/DiscreteKL")
 
+#files used in this simulation example
 #source('Discrete_data.R')
 #sourceCpp("DiscreteKL_Boosting_logit.cpp")
 #sourceCpp("DiscreteKL_NR_logit.cpp")
