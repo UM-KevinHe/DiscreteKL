@@ -27,7 +27,7 @@ p_i = 2
 corr = 0.75
 p_true = 5
 
-M <- 1000
+M <- 500
 Z.char <- paste0('Z', 1:p)
 internal_beta <- rep(0, p)
 test_beta <- rep(0, p)
