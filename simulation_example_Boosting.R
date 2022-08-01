@@ -13,7 +13,6 @@ devtools::install_github("UM-KevinHe/DiscreteKL")
 #source('DiscreteKL_Boosting_logit.R')
 library(DiscreteKL)
 
-start <- Sys.time()
 rep <- 1
 loglik <- as.data.frame(matrix(rep(0, (3*rep)), rep, 3))
 names(loglik) <- c("NR", "Boosting", "KL_boosting")
