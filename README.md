@@ -13,9 +13,10 @@ Prediction models built based on a single data source may suffer from rare event
 #Install the package, need to install the devtools packages:
 install.packages("devtools")
 devtools::install_github("UM-KevinHe/DiscreteKL")
-
 ```
 
-## Try it out with simulation examples
+## Simulation examples
 
-```
+Two examples with integration using discrete logistic models (discreta failure time model with "logit" link function) on discrete time-to-event data can be performed with the following tutorials:
+- Low dimensional setting: download and run R file "simulation_example_NR.R"
+- High dimensional setting: download and run R file "simulation_example_Boosting.R"
