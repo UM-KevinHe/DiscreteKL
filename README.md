@@ -15,8 +15,7 @@ install.packages("devtools")
 devtools::install_github("UM-KevinHe/DiscreteKL")
 ```
 
-## Simulation examples
+## Simulation example
 
-Two examples with integration using discrete logistic models (discreta failure time model with "logit" link function) on discrete time-to-event data can be performed with the following tutorials:
-- Low dimensional setting: download and run R file "simulation_example_NR.R"
-- High dimensional setting: download and run R file "simulation_example_Boosting.R"
+Example with integration using discrete logistic models (discreta failure time model with "logit" link function) on discrete time-to-event data can be performed with the following tutorial:
+- Low dimensional setting: download and run R file "Simulation.R"
