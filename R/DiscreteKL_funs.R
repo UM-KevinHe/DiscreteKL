@@ -65,4 +65,33 @@ sim.disc <- function(beta, eta, prov.size, Z.char, censor) {
   return(data)
 }
 
+### most-basic simulation for continuous data
+sim.con <- function(beta, N, Z.char, upper_C){
+  p_h <- 0.5*length(beta)
+  Z1 <- as.matrix(simu_z(N, p_h))
+  Z2 <- matrix(rbinom(N*p_h,1,0.5),N,p_h)
+  Z <- cbind(Z1, Z2)
+  U=runif(N, 0,1)
+  #Exponential 
+  #lambda = 0.5
+  #time=-log(U)/(lambda*exp(Z%*%beta)) 
+  #Weibull
+  lambda=1
+  nu=2
+  time=(-log(U)/(lambda*exp(Z%*%beta)))^(1/nu) 
+  censoring=runif(N,0,upper_C) #0 or 0.5
+  tcens=(censoring<time) # censoring indicator
+  delta=1-tcens
+  time=time*(delta!=0)+censoring*(delta==0)
+  
+  ###order data; 
+  delta = delta[order(time)]
+  Z = Z[order(time),]
+  time = time[order(time)]
+  data <- as.data.frame(cbind(Z, delta, time))
+  colnames(data) <- c(Z.char, "status", "time")
+  
+  return(data)
+}
+
 

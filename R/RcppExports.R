@@ -5,16 +5,32 @@ Update_logit <- function(t, X, ind, beta_t, beta_v, max_t, c, r) {
     .Call(`_DiscreteKL_Update_logit`, t, X, ind, beta_t, beta_v, max_t, c, r)
 }
 
+Update_cloglog <- function(t, X, ind, beta_t, beta_v, max_t, c, r, epsilon) {
+  .Call(`_DiscreteKL_Update_cloglog`, t, X, ind, beta_t, beta_v, max_t, c, r, epsilon)
+}
+
 UpdateKL_logit <- function(t, X, delta, beta_t, beta_v, max_t, c, r, beta_t_tilde, beta_v_tilde, eta) {
     .Call(`_DiscreteKL_UpdateKL_logit`, t, X, delta, beta_t, beta_v, max_t, c, r, beta_t_tilde, beta_v_tilde, eta)
+}
+
+UpdateKL_cloglog <- function(t, X, delta, beta_t, beta_v, max_t, c, r, beta_t_tilde, beta_v_tilde, eta, epsilon) {
+  .Call(`_DiscreteKL_UpdateKL_cloglog`, t, X, delta, beta_t, beta_v, max_t, c, r, beta_t_tilde, beta_v_tilde, eta, epsilon)
 }
 
 NR_logit <- function(t, X, ind, beta_t, beta_v, tol, max_iter) {
     .Call(`_DiscreteKL_NR_logit`, t, X, ind, beta_t, beta_v, tol, max_iter)
 }
 
+NR_cloglog <- function(t, X, ind, beta_t, beta_v, tol, max_iter, epsilon) {
+  .Call(`_DiscreteKL_NR_cloglog`, t, X, ind, beta_t, beta_v, tol, max_iter, epsilon)
+}
+
 NRKL_logit <- function(t, X, ind, beta_t, beta_v, tol, max_iter, beta_t_tilde, beta_v_tilde, eta) {
     .Call(`_DiscreteKL_NRKL_logit`, t, X, ind, beta_t, beta_v, tol, max_iter, beta_t_tilde, beta_v_tilde, eta)
+}
+
+NRKL_cloglog <- function(t, X, ind, beta_t, beta_v, tol, max_iter, beta_t_tilde, beta_v_tilde, eta, epsilon) {
+  .Call(`_DiscreteKL_NRKL_cloglog`, t, X, ind, beta_t, beta_v, tol, max_iter, beta_t_tilde, beta_v_tilde, eta, epsilon)
 }
 
 UpdateKL2_logit <- function(t, X, delta, beta_t, beta_v, max_t, c, r, beta_t_tilde1, beta_v_tilde1, eta1, beta_t_tilde2, beta_v_tilde2, eta2) {
